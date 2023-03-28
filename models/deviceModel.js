@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // define schema
-const mobileSchema = new mongoose.Schema({
+const deviceSchema = new mongoose.Schema({
   brandAndModel: {
     type: String,
     required: true
@@ -17,7 +17,7 @@ const mobileSchema = new mongoose.Schema({
 });
 
 // create model from schema
-const Mobile = mongoose.model('Mobile', mobileSchema);
+const Device = mongoose.model('device', deviceSchema);
 
 // export model
-module.exports = Mobile;
+module.exports = Device;
