@@ -13,7 +13,7 @@ const deviceSchema = new mongoose.Schema(
       required: true,
     },
     imei: {
-      type: String,
+      type: Number,
       required: true,
     },
     ram: {
