@@ -13,11 +13,13 @@ const createDevice = async (req, res, next) => {
 const getDevices = async (req, res, next) => {
   const pageNumber = req?.query?.pageNo;
   const perPage = req?.query?.perPage;
-  const skipCount = (pageNumber - 1) * perPage;
+  const skipCount = pageNumber * perPage;
+  const count = await Device.countDocuments();
   const data = await Device.find().skip(skipCount).limit(perPage);
   res.status(200).json({
     success: true,
     data: data,
+    count: count
   });
 };
 
