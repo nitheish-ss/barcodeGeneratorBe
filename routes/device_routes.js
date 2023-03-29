@@ -5,6 +5,6 @@ const { protect } = require("../middlewares/auth");
 
 const router = express.Router();
 
-router.route("/create").post(protect, asyncMiddleware(createDevice));
+router.route("/").post(protect, asyncMiddleware(createDevice));
 
 module.exports = router;
