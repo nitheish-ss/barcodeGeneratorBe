@@ -15,6 +15,7 @@ const deviceSchema = new mongoose.Schema(
     imei: {
       type: Number,
       required: true,
+      index: { unique: true },
     },
     ram: {
       type: Number,
