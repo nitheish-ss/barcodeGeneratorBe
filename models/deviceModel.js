@@ -24,6 +24,11 @@ const deviceSchema = new mongoose.Schema(
       type: Number,
       default: null,
     },
+    romUnit: {
+      type: String,
+      required: true,
+      default: "GB",
+    },
     deviceCondition: {
       type: String,
       default: null,
