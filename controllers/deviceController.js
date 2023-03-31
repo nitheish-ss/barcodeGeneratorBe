@@ -35,4 +35,19 @@ const getDevices = async (req, res, next) => {
   });
 };
 
-module.exports = { createDevice, getDevices };
+const getDeviceById = async (req, res, next) => {
+  const id = req?.params?.id;
+  try {
+    const data = await Device.findById(id);
+    if (!data) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Device already exist" });
+    }
+    return res.status(200).json(data);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+module.exports = { createDevice, getDevices, getDeviceById };
