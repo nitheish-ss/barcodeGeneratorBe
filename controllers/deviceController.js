@@ -41,8 +41,8 @@ const getDeviceById = async (req, res, next) => {
     const data = await Device.findById(id);
     if (!data) {
       return res
-        .status(404)
-        .json({ success: false, error: "Device already exist" });
+        .status(400)
+        .json({ success: false, error: "Device doesnot exist" });
     }
     return res.status(200).json(data);
   } catch (error) {
@@ -76,10 +76,26 @@ const updateDeviceById = async (req, res, next) => {
   }
 };
 
+const getDeviceByImei = async (req, res, next) => {
+  const imei = req?.params?.imei;
+  try {
+    const data = await Device.findOne({ imei: imei });
+    if (!data) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Device doesnot exist" });
+    }
+    return res.status(200).json({ _id: data?._id });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   createDevice,
   getDevices,
   getDeviceById,
   deleteDeviceById,
   updateDeviceById,
+  getDeviceByImei,
 };
