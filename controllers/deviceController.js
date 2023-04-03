@@ -53,7 +53,7 @@ const getDeviceById = async (req, res, next) => {
 const deleteDeviceById = async (req, res, next) => {
   const id = req?.params?.id;
   try {
-    const result = await Device.deleteOne({_id: id});
+    const result = await Device.deleteOne({ _id: id });
     console.log(result);
     return res
       .status(200)
@@ -63,4 +63,23 @@ const deleteDeviceById = async (req, res, next) => {
   }
 };
 
-module.exports = { createDevice, getDevices, getDeviceById, deleteDeviceById };
+const updateDeviceById = async (req, res, next) => {
+  const id = req?.params?.id;
+  const device = new Device(req.body);
+  try {
+    await Device.updateOne({ _id: id }, device);
+    return res
+      .status(200)
+      .json({ success: true, message: "Device Updated Successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  createDevice,
+  getDevices,
+  getDeviceById,
+  deleteDeviceById,
+  updateDeviceById,
+};
