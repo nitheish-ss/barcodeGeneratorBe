@@ -39,7 +39,7 @@ const deviceSchema = new mongoose.Schema(
       default: null,
     },
     purchasedFromContactNo: {
-      type: Number,
+      type: String,
       default: null,
     },
     purchaseCost: {
@@ -55,7 +55,7 @@ const deviceSchema = new mongoose.Schema(
       default: null,
     },
     soldToContactNo: {
-      type: Number,
+      type: String,
       default: null,
     },
     soldPrice: {

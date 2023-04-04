@@ -91,6 +91,66 @@ const getDeviceByImei = async (req, res, next) => {
   }
 };
 
+const searchDevice = async (req, res, next) => {
+  const {
+    pageNo,
+    perPage,
+    brand = null,
+    model = null,
+    imei = null,
+    ram = null,
+    rom = null,
+    romUnit = null,
+    purchasedFrom = null,
+    purchasedFromContactNo = null,
+    purchaseCost = null,
+    purchaseDate = null,
+    deviceCondition = null,
+    soldTo = null,
+    soldToContactNo = null,
+    soldPrice = null,
+    soldDate = null,
+    profit = null,
+  } = req.query;
+  const skipCount = pageNo * perPage;
+  const query = {
+    ...(brand && { brand: new RegExp(brand, "i") }),
+    ...(model && { model: new RegExp(model, "i") }),
+    ...(imei && { imei: imei }),
+    ...(ram && { ram: ram }),
+    ...(rom && { rom: rom }),
+    ...(romUnit && { romUnit: new RegExp(romUnit, "i") }),
+    ...(purchasedFrom && { purchasedFrom: new RegExp(purchasedFrom, "i") }),
+    ...(purchasedFromContactNo && {
+      purchasedFromContactNo: new RegExp(purchasedFromContactNo, "i"),
+    }),
+    ...(purchaseCost && { purchaseCost: purchaseCost }),
+    ...(purchaseDate && { purchaseDate: purchaseDate }),
+    ...(deviceCondition && {
+      deviceCondition: new RegExp(deviceCondition, "i"),
+    }),
+    ...(soldTo && { soldTo: new RegExp(soldTo, "i") }),
+    ...(soldToContactNo && {
+      soldToContactNo: new RegExp(soldToContactNo, "i"),
+    }),
+    ...(soldPrice && { soldPrice: soldPrice }),
+    ...(soldDate && { soldDate: soldDate }),
+    ...(profit && { profit: profit }),
+  };
+  const count = await Device.countDocuments(query);
+  try {
+    const devices = await Device.find(query)
+      .skip(skipCount)
+      .limit(perPage)
+      .exec();
+
+    res.json({ success: true, data: devices, count: count });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   createDevice,
   getDevices,
@@ -98,4 +158,5 @@ module.exports = {
   deleteDeviceById,
   updateDeviceById,
   getDeviceByImei,
+  searchDevice,
 };
