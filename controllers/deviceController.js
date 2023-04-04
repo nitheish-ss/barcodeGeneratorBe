@@ -91,6 +91,24 @@ const getDeviceByImei = async (req, res, next) => {
   }
 };
 
+const uploadBulkDeviceData = async (req, res, next) => {
+  const devicesList = req?.body;
+  try {
+    const data = await Device.insertMany(devicesList, { unique: true });
+    if (data.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Device List Upload Failed" });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Device List Uploaded Successfully",
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   createDevice,
   getDevices,
@@ -98,4 +116,5 @@ module.exports = {
   deleteDeviceById,
   updateDeviceById,
   getDeviceByImei,
+  uploadBulkDeviceData,
 };
