@@ -154,16 +154,14 @@ const searchDevice = async (req, res, next) => {
 const uploadBulkDeviceData = async (req, res, next) => {
   const devicesList = req?.body;
   try {
-    const data = await Device.updateMany(devicesList, { upsert: true });
-    if (data.length === 0) {
-      return res
-        .status(400)
-        .json({ success: false, error: "Device List Upload Failed" });
-    }
-    return res.status(200).json({
-      success: true,
-      message: "Device List Uploaded Successfully",
-    });
+    await Promise.all(
+      devicesList.map((device) => {
+        return Device.updateMany({ imei: device.imei }, device, {
+          upsert: true,
+        });
+      })
+    );
+    res.status(200).json({ message: "Bulk device data uploaded successfully" });
   } catch (error) {
     return next(error);
   }
