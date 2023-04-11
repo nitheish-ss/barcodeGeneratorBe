@@ -154,7 +154,7 @@ const searchDevice = async (req, res, next) => {
 const uploadBulkDeviceData = async (req, res, next) => {
   const devicesList = req?.body;
   try {
-    const data = await Device.insertMany(devicesList, { unique: true });
+    const data = await Device.updateMany(devicesList, { upsert: true });
     if (data.length === 0) {
       return res
         .status(400)
